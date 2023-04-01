@@ -24,6 +24,15 @@ while True:
     #taking all hands to draw landmarks individually
     if results.multi_hand_landmarks:
        for handlms in results.multi_hand_landmarks:
+          #finding out each landmarks of tracked hand
+          for id, lm, in enumerate(handlms.landmark):
+             h, w, c = img.shape
+             # we have only decimal values of landmark
+             #to convert it into pixel (landmark.x * widthOfImage) and so on
+             cx, cy = int(lm.x * w) , int(lm.y * h)
+             print(id, cx, cy)
+
+
           mpDraw.draw_landmarks(img, handlms, mpHands.HAND_CONNECTIONS)
     #count frame rates 
     cTime = time.time()
