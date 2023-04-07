@@ -22,6 +22,16 @@ while True:
     if len(lmList):
         # 4 : THUMB_TIP,  8 : INDEX_FINGER_TIP
         print(lmList[4], lmList[8])
+        # creating circles over the 4 : THUMB_TIP,  8 : INDEX_FINGER_TIP
+        x1, y1 = lmList[4][1], lmList[4][2]  # 4 : THUMB_TIP
+        x2, y2 = lmList[8][1], lmList[8][2]  # 8 : INDEX_FINGER_TIP
+        cv2.circle(img, (x1, y1), 10, (255, 0, 255), cv2.FILLED)
+        cv2.circle(img, (x2, y2), 10, (255, 0, 255), cv2.FILLED)
+
+        # creating a line btw 4 : THUMB_TIP AND 8 : INDEX_FINGER_TIP
+        cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 3)
+
+
     
 
     cv2.imshow("Image basic", img)
