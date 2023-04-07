@@ -30,10 +30,7 @@ while True:
 
         # creating a line btw 4 : THUMB_TIP AND 8 : INDEX_FINGER_TIP
         cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 3)
-
-
     
-
     cv2.imshow("Image basic", img)
 
     if cv2.waitKey(25) & 0xFF == ord('q'):                     
