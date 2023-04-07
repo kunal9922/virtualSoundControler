@@ -34,7 +34,7 @@ py -m pip install mediapipe
 
 <h1>Demo Of Hand Tracking</h1>
 
-<video width="360" height="240" controls>  <source src="./dataSet/handTrackingDemo.mp4" type="video/mp4">  </video>
+<video width="360" height="240" controls>  <source src="./dataSet/demoHandTracking1.mp4" type="video/mp4">  </video>
 
 
 
