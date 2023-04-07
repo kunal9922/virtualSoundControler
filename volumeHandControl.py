@@ -17,6 +17,12 @@ detector = htm.HandDetector(detectionCon=0.7)
 while True:
     success , img = cap.read()
     img = detector.findHands(img)
+    #getting the list of detected hands landmakrs postion in pixels
+    lmList = detector.findPosition(img, draw =False)
+    if len(lmList):
+        # 4 : THUMB_TIP,  8 : INDEX_FINGER_TIP
+        print(lmList[4], lmList[8])
+    
 
     cv2.imshow("Image basic", img)
 
