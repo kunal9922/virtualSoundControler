@@ -23,11 +23,12 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(
     IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
-volume.GetMute()
-volume.GetMasterVolumeLevel()
-volume.GetVolumeRange()
-volume.SetMasterVolumeLevel(-20.0, None)
 
+# get the range of volume which goes (min -65.25 to max 0.0) 
+volRange = volume.GetVolumeRange()
+
+minVol = volRange[0]
+maxVol = volRange[1]
 
 while True:
     success , img = cap.read()
@@ -47,10 +48,18 @@ while True:
         cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 3)
         cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
         lenght = math.hypot(x2 -x1, y2 - y1)
-        print(lenght)
+       
 
+
+        #hand range 10 - 300
+        #volume range -65 -0
+        '''Now converting the volume range according to pixel line range'''
+        vol = np.interp(lenght, [40, 200], [minVol, maxVol])
+        print(int(lenght), vol)
+        volume.SetMasterVolumeLevel(vol, None)
+        
         if lenght < 50:
-             cv2.cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
+             cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
 
 
     cv2.imshow("Image basic", img)
