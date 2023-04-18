@@ -55,10 +55,10 @@ while True:
         #volume range -65 -0
         '''Now converting the volume range according to pixel line range'''
         vol = np.interp(lenght, [40, 200], [minVol, maxVol])
-        print(int(lenght), vol)
+       # print(int(lenght), int(vol))
         volume.SetMasterVolumeLevel(vol, None)
         
-        if lenght < 50:
+        if lenght < 40:
              cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
 
 
