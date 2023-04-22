@@ -9,7 +9,7 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 class HandVolumeControl:
     def __init__(self, wCam, hCam):
-       # self.cap = cv2.VideoCapture(0)
+        # self.cap = cv2.VideoCapture(0)
         # self.cap.set(3, wCam)
         # self.cap.set(4, hCam)
         self.detector = htm.HandDetector(detectionCon=0.7)
@@ -20,6 +20,7 @@ class HandVolumeControl:
         volRange = self.volume.GetVolumeRange()
         self.minVol = volRange[0]
         self.maxVol = volRange[1]
+        self.vol = 0
 
     def run(self, img):
         img = self.detector.findHands(img)
@@ -34,8 +35,8 @@ class HandVolumeControl:
             cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
             length = math.hypot(x2 -x1, y2 - y1)
 
-            vol = np.interp(length, [40, 200], [self.minVol, self.maxVol])
-            self.volume.SetMasterVolumeLevel(vol, None)
+            self.vol = np.interp(length, [40, 200], [self.minVol, self.maxVol])
+            self.volume.SetMasterVolumeLevel(self.vol, None)
 
             if length < 40:
                 cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)

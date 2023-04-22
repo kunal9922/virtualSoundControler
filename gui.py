@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from volumeHandControl import HandVolumeControl 
-import PIL
+
 
 class Icon:
     def __init__(self, imgPath, *imgSize: list):
@@ -21,6 +21,10 @@ class Icon:
         # Create a Tkinter-compatible image
         self.icon = ImageTk.PhotoImage(icon_image)
 
+# Create the main window
+root = tk.Tk()
+root.title("Wireless Sound Control System")
+
 
 # OpenCV VideoCapture object for camera input
 cap = cv2.VideoCapture(0)
@@ -29,21 +33,21 @@ hand_volume_control = HandVolumeControl(640, 480)
 # by default detection is True 
 detectHand = True
 
-#icon Camera On and OFF
-camOn = Icon(r'./dataset/toggleON.png', (20, 20))
-camOn = camOn.icon
-camOFF = Icon(r'./dataset/toggleOFF.png', (20, 20))
-camOFF = camOFF.icon
+#icon hand detection icon On and OFF
+hndOn = Icon(r'./dataset/toggleON.png', (50, 50))
+hndOn = hndOn.icon
+hndOFF = Icon(r'./dataset/toggleOFF.png', (50, 50))
+hndOFF = hndOFF.icon
 
 
-
+#toggle switch to Trun ON and Trun OFF hand detection 
 def detectToggle():
     global detectHand
-    if hd_toggle_button.config('text')[-1] == "ON":
-        hd_toggle_button.config(text="OFF", image =None , compound= tk.RIGHT )
+    if hd_toggle_button.config('text')[-1] == "OFF":
+        hd_toggle_button.config(text="ON", image = hndOn, compound= tk.RIGHT )
         detectHand = True
     else:
-        hd_toggle_button.config(text="ON", image= None, compound= tk.RIGHT )
+        hd_toggle_button.config(text="OFF", image = hndOFF, compound= tk.RIGHT )
         detectHand = False
 
 
@@ -63,12 +67,14 @@ def close_camera():
 
 # Function to update the camera frame in the GUI
 def update_frame():
-    global hand_volume_control
+    global hand_volume_control, current_value
     if cap is not None:
         ret, frame = cap.read()
         if ret:
             if detectHand is not False:
                 frame = hand_volume_control.run(frame)
+                current_value.set(hand_volume_control.vol)
+                
             # Convert frame from BGR to RGB
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             # Resize frame to fit in GUI window
@@ -82,9 +88,6 @@ def update_frame():
     # Schedule next frame update after 5 ms
     label.after(5, update_frame)
 
-# Create the main window
-root = tk.Tk()
-root.title("Camera Viewer")
 
 # Create a frame to hold the camera frame label
 frame = ttk.Frame(root)
@@ -103,8 +106,18 @@ close_button = ttk.Button(root, text="Close Camera", command=close_camera)
 close_button.pack(pady=5)
 
 # Create " Hand detection " toggle button
-hd_toggle_button = ttk.Button(root, text="OFF", command= detectToggle)
+hd_toggle_button = ttk.Button(root, text="ON",image=hndOn, command= detectToggle)
 hd_toggle_button.pack(pady=5)
+
+#slider that shows the current volume by changing hand gestures.
+current_value = tk.IntVar()
+slider = ttk.Scale(
+    root,
+    from_=0,
+    to=100,
+    orient='horizontal',
+    variable= current_value
+)
 
 
 # Apply some styling to the buttons
@@ -118,7 +131,4 @@ update_frame()
 # Run the GUI event loop
 root.mainloop()
 
-# Release the VideoCapture object and close all OpenCV windows
-if cap is not None:
-    cap.release()
-cv2.destroyAllWindows()
+

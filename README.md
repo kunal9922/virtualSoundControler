@@ -1,9 +1,9 @@
 # virtualSoundControler
-It is my college project where we are building a python software that can control volume by using Hand Gesture in realTime 
+It is my college project where we are building a python software that can control volume by using Hand Gesture in Real Time 
 
 To initiate the project 
 step 1: 
-    * install python 3.10 just becoz mediapie module doesn't support latest version of python now.
+    * install python 3.10 just becoz mediapipe module doesn't support latest version of python for now.
 
 step2:
    * make alias 
@@ -29,12 +29,23 @@ Step 5: install mediapipe module
 py -m pip install mediapipe
 
 
+Step 6 install dependencies 
+pip install -r requirements.txt
 
 
+step 7 to run project 
+
+python gui.py
+
+# Sample pics 
+
+<img src = "./dataset/demopic.png">
 
 <h1>Demo Of Hand Tracking</h1>
 
 <video width="360" height="240" controls>  <source src="./dataSet/demoHandTracking1.mp4" type="video/mp4">  </video>
+
+<img src = "./dataset/demo_hand_sound_Control.gif">
 
 
 
