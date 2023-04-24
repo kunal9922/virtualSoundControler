@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from volumeHandControl import HandVolumeControl 
-
+import numpy as np
 
 class Icon:
     def __init__(self, imgPath, *imgSize: list):
@@ -24,6 +24,9 @@ class Icon:
 # Create the main window
 root = tk.Tk()
 root.title("Wireless Sound Control System")
+ico = Image.open('./dataset/magicHands.png')
+photo = ImageTk.PhotoImage(ico)
+root.wm_iconphoto(False, photo)
 
 
 # OpenCV VideoCapture object for camera input
@@ -63,17 +66,25 @@ def close_camera():
         cap.release()
         cv2.destroyAllWindows()
         cap = None
+        # Convert frame to ImageTk.PhotoImage object
+        imgBlank = np.zeros((480,640), np.int8)
+        img = Image.fromarray(imgBlank)
+        img_tk = ImageTk.PhotoImage(image=img)
+        # Update label with new frame
+        label.config(image=img_tk)
+        label.image = img_tk
+        
 
 
 # Function to update the camera frame in the GUI
 def update_frame():
-    global hand_volume_control, current_value
+    global hand_volume_control, scaleValue
     if cap is not None:
         ret, frame = cap.read()
         if ret:
             if detectHand is not False:
-                frame = hand_volume_control.run(frame)
-                current_value.set(hand_volume_control.vol)
+                frame, vol = hand_volume_control.run(frame)
+                scaleValue.set(vol)
                 
             # Convert frame from BGR to RGB
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -85,6 +96,7 @@ def update_frame():
             # Update label with new frame
             label.config(image=img_tk)
             label.image = img_tk
+            
     # Schedule next frame update after 5 ms
     label.after(5, update_frame)
 
@@ -110,13 +122,13 @@ hd_toggle_button = ttk.Button(root, text="ON",image=hndOn, command= detectToggle
 hd_toggle_button.pack(pady=5)
 
 #slider that shows the current volume by changing hand gestures.
-current_value = tk.IntVar()
+scaleValue = tk.IntVar()
 slider = ttk.Scale(
     root,
     from_=0,
     to=100,
     orient='horizontal',
-    variable= current_value
+    variable= scaleValue
 )
 
 

@@ -20,11 +20,15 @@ class HandVolumeControl:
         volRange = self.volume.GetVolumeRange()
         self.minVol = volRange[0]
         self.maxVol = volRange[1]
+        #volume range from -65 to 0
         self.vol = 0
+        
 
     def run(self, img):
         img = self.detector.findHands(img)
         lmList = self.detector.findPosition(img, draw=False)
+        # store the volume percentage 
+        volPer = 0
         if len(lmList):
             x1, y1 = lmList[4][1], lmList[4][2]  
             x2, y2 = lmList[8][1], lmList[8][2]  
@@ -34,14 +38,14 @@ class HandVolumeControl:
             cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 3)
             cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
             length = math.hypot(x2 -x1, y2 - y1)
-
             self.vol = np.interp(length, [40, 200], [self.minVol, self.maxVol])
             self.volume.SetMasterVolumeLevel(self.vol, None)
-
+            # converting the volume ranges from 0 to 100 as percentage
+            volPer = np.interp(length, [40, 200], [0, 100])
             if length < 40:
                 cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
 
-        return img 
+        return img, volPer 
 
     def release(self):
        # self.cap.release()
