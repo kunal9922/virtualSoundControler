@@ -1,5 +1,12 @@
 # virtualSoundControler
-It is my college project where we are building a python software that can control volume by using Hand Gesture in Real Time 
+* Developed a Hand Gestures Volume Control System using 
+Python, leveraging OpenCV for computer vision. Created an 
+intuitive method to adjust audio playback volume using hand 
+gestures captured by a camera. 
+* Achieved benchmarks of 90-95% accuracy in gesture 
+recognition.
+* The system utilizes a camera to capture and interpret user 
+hand gestures, providing a natural way to control volume levels.
 
 To initiate the project 
 step 1: 
@@ -8,7 +15,7 @@ step 1:
 step2:
    * make alias 
 
-     New-Alias -Name python310 -value "yourPython3.10.exe path"
+    $ New-Alias -Name python310 -value "yourPython3.10.exe path"
 
      
 
@@ -16,26 +23,27 @@ step 3:
 
 create virtual env 
 
-python310 -m venv venv310
+    $ python310 -m venv venv310
 
 step 4:
 
 Activate virtual environment
 
-venv310\scripts\activate
+    $ venv310\scripts\activate
 
 Step 5: install mediapipe module
 
-py -m pip install mediapipe
+    $ py -m pip install mediapipe
 
 
 Step 6 install dependencies 
-pip install -r requirements.txt
+
+    $ pip install -r requirements.txt
 
 
 step 7 to run project 
 
-python gui.py
+    $ python gui.py
 
 # Sample pics 
 
