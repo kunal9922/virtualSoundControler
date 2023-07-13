@@ -10,14 +10,13 @@ hand gestures, providing a natural way to control volume levels.
 
 To initiate the project 
 step 1: 
-    * install python 3.10 just becoz mediapipe module doesn't support latest version of python for now.
+- install python 3.10 just becoz mediapipe module doesn't support latest version of python for now.
 
 step2:
    * make alias 
 
     $ New-Alias -Name python310 -value "yourPython3.10.exe path"
 
-     
 
 step 3: 
 
@@ -45,14 +44,17 @@ step 7 to run project
 
     $ python gui.py
 
-# Sample pics 
 
-<img src = "./dataset/demopic.png">
+## Demo 
+<video src= "./dataset/soundControlDemo2_again.mp4">
 
-<h1>Demo Of Hand Tracking</h1>
+## Demo Of Hand Tracking
+<video width="360" height="360" controls>  <source src="./dataSet/demoHandTracking1.mp4" type="video/mp4">  </video>
 
-<video width="360" height="240" controls>  <source src="./dataSet/demoHandTracking1.mp4" type="video/mp4">  </video>
+# Hand Landmarks 
+<img src = ".\dataset\hand_landmarks.png">
 
+## Some inital control on volume 
 <img src = "./dataset/demo_hand_sound_Control.gif">
 
 
