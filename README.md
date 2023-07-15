@@ -8,54 +8,47 @@ recognition.
 * The system utilizes a camera to capture and interpret user 
 hand gestures, providing a natural way to control volume levels.
 
-To initiate the project 
-step 1: 
-- install python 3.10 just becoz mediapipe module doesn't support latest version of python for now.
+## To Execute the project 
 
-step2:
-   * make alias 
+Step 1: install python 3.10 just because the Deep Learning module mediaPipe doesn't support the latest version of Python.
+
+Step 2: make an alias 
 
     $ New-Alias -Name python310 -value "yourPython3.10.exe path"
 
 
-step 3: 
-
-create virtual env 
+Step 3: Create a Virtual Environment 
 
     $ python310 -m venv venv310
 
-step 4:
-
-Activate virtual environment
+Step 4: Activate the virtual environment
 
     $ venv310\scripts\activate
 
-Step 5: install mediapipe module
+Step 5: Install the mediaPipe module
 
     $ py -m pip install mediapipe
 
 
-Step 6 install dependencies 
+Step 6: Install the project's dependencies 
 
     $ pip install -r requirements.txt
 
 
-step 7 to run project 
+Step 7: To run the project 
 
     $ python gui.py
 
 
-## Demo 
-<video src= "./dataset/soundControlDemo2_again.mp4">
+## Demo of the project with all its features such as volume control and hand tracking feature
 
-## Demo Of Hand Tracking
-<video width="360" height="360" controls>  <source src="./dataSet/demoHandTracking1.mp4" type="video/mp4">  </video>
+https://github.com/kunal9922/virtualSoundControler/assets/53283003/967d553c-333c-47e5-9452-0458bc314606
 
-# Hand Landmarks 
+
+## Started with Hand Tracking
+
+https://github.com/kunal9922/virtualSoundControler/assets/53283003/1d18bca4-6291-4fe0-84cb-5beda68c91a9
+
+
+## Hand Landmarks 
 <img src = ".\dataset\hand_landmarks.png">
-
-## Some inital control on volume 
-<img src = "./dataset/demo_hand_sound_Control.gif">
-
-
-
