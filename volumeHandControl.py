@@ -1,5 +1,4 @@
 import cv2
-import mediapipe
 import numpy as np
 import HandTracking as htm
 import math
@@ -30,8 +29,8 @@ class HandVolumeControl:
         # store the volume percentage 
         volPer = 0
         if len(lmList):
-            x1, y1 = lmList[4][1], lmList[4][2]  
-            x2, y2 = lmList[8][1], lmList[8][2]  
+            x1, y1 = lmList[4][1], lmList[4][2]  # Thumb Tip
+            x2, y2 = lmList[8][1], lmList[8][2]  # Index FInger Tip
             cv2.circle(img, (x1, y1), 10, (255, 0, 255), cv2.FILLED)
             cv2.circle(img, (x2, y2), 10, (255, 0, 255), cv2.FILLED)
             cx, cy = (x1+x2)//2, (y1+y2)//2
