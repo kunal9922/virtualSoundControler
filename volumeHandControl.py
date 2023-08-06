@@ -45,7 +45,7 @@ class HandVolumeControl:
             if length < 40:
                 cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
 
-        return img, volPer 
+        return img, volPer, lmList
 
     def release(self):
        # self.cap.release()

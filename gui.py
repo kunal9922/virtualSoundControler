@@ -39,6 +39,9 @@ def detectToggle():
 def open_camera():
     global cap
     cap = cv2.VideoCapture(0)
+    # Set camera resolution to lower value for faster processing
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 # Function to close the camera
 def close_camera():
@@ -61,13 +64,28 @@ def update_frame():
 
     if cap is not None:
         ret, frame = cap.read()
+        # frame = edge_detection(frame)
         if ret:
             if detectHand is not False:
-                frame, vol = hand_volume_control.run(frame)
+                frame, vol, landMarks = hand_volume_control.run(frame)
                 app.scaleValue.set(vol)
                 
+            # Get the landmarks for the first hand and create a hand mask
+            hand_mask = np.zeros_like(frame[:, :, 0], dtype=np.uint8)
+            # Set hand landmarks to white in the hand mask
+            for lm in landMarks:
+                id, cx, cy = lm
+                cv2.circle(hand_mask, (cx, cy), 15, (255), cv2.FILLED)
+
+            # Dilate the hand mask to cover a slightly larger region
+            kernel = np.ones((15, 15), np.uint8)
+            hand_mask = cv2.dilate(hand_mask, kernel)
+
+            # Apply the hand mask to the frame to hide everything except hands
+            hands_only = cv2.bitwise_and(frame, frame, mask=hand_mask)
+
             # Convert frame from BGR to RGB
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame_rgb = cv2.cvtColor(hands_only, cv2.COLOR_BGR2RGB)
             # Resize frame to fit in GUI window
             frame_rgb = cv2.resize(frame_rgb, (640, 480))
             # Convert frame to ImageTk.PhotoImage object
