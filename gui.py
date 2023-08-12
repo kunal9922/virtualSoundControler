@@ -64,43 +64,46 @@ def update_frame():
 
     if cap is not None:
         ret, frame = cap.read()
-        # frame = edge_detection(frame)
+        # Apply Gaussian blur to the entire frame
+        blurred_frame = cv2.GaussianBlur(frame, (99, 99), 0)
         if ret:
             if detectHand is not False:
                 frame, vol, landmarks = hand_volume_control.run(frame)
                 app.scaleValue.set(vol)
+
+                # Get the landmarks for the first hand and create a hand mask
+                hand_mask = np.zeros_like(frame[:, :, 0], dtype=np.uint8)
+                # Set hand landmarks to white in the hand mask
+                for lm in landmarks:
+                    id, cx, cy = lm
+                    cv2.circle(hand_mask, (cx, cy), 5, (255), cv2.FILLED)
+
+                # Apply Gaussian blur to the entire frame
+                blurred_frame = cv2.GaussianBlur(frame, (99, 99), 0)
+
+                # Invert the hand mask to create a background mask
+                background_mask = cv2.bitwise_not(hand_mask)
+
+                # Apply the background mask to the blurred frame
+                blurred_background = cv2.bitwise_and(blurred_frame, blurred_frame, mask=background_mask)
+
+                # Apply the hand mask to the original frame to keep the hand focused
+                focused_hand = cv2.bitwise_and(frame, frame, mask=hand_mask)
+
+                # Combine the focused hand and blurred background
+                frame = cv2.add(focused_hand, blurred_background)
                 
-            # Get the landmarks for the first hand and create a hand mask
-            hand_mask = np.zeros_like(frame[:, :, 0], dtype=np.uint8)
-            # Set hand landmarks to white in the hand mask
-            for lm in landmarks:
-                id, cx, cy = lm
-                cv2.circle(hand_mask, (cx, cy), 5, (255), cv2.FILLED)
-
-             # Apply Gaussian blur to the entire frame
-            blurred_frame = cv2.GaussianBlur(frame, (99, 99), 0)
-
-            # Invert the hand mask to create a background mask
-            background_mask = cv2.bitwise_not(hand_mask)
-
-            # Apply the background mask to the blurred frame
-            blurred_background = cv2.bitwise_and(blurred_frame, blurred_frame, mask=background_mask)
-
-            # Apply the hand mask to the original frame to keep the hand focused
-            focused_hand = cv2.bitwise_and(frame, frame, mask=hand_mask)
-
-            # Combine the focused hand and blurred background
-            combined_frame = cv2.add(focused_hand, blurred_background)
-            
-            # Draw lines connecting finger landmarks to create a palm structure
-            if len(landmarks) >= 21:
-                fingers = [[0, 1, 2, 3, 4], [0, 5, 6, 7, 8], [0, 9, 10, 11, 12], [0, 13, 14, 15, 16], [0, 17, 18, 19, 20]]
-                for finger in fingers:
-                    for i in range(len(finger) - 1):
-                        cv2.line(combined_frame, tuple(landmarks[finger[i]][1:]), tuple(landmarks[finger[i + 1]][1:]), (0, 255, 0), 2)
+                # Draw lines connecting finger landmarks to create a palm structure
+                if len(landmarks) >= 21:
+                    fingers = [[0, 1, 2, 3, 4], [0, 5, 6, 7, 8], [0, 9, 10, 11, 12], [0, 13, 14, 15, 16], [0, 17, 18, 19, 20]]
+                    for finger in fingers:
+                        for i in range(len(finger) - 1):
+                            cv2.line(frame, tuple(landmarks[finger[i]][1:]), tuple(landmarks[finger[i + 1]][1:]), (0, 255, 0), 2)
                 
+                #Set the new hand detected frame with blur effect
+                blurred_frame = frame 
             # Convert frame from BGR to RGB
-            frame_rgb = cv2.cvtColor(combined_frame, cv2.COLOR_BGR2RGB)
+            frame_rgb = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2RGB)
             # Resize frame to fit in GUI window
             frame_rgb = cv2.resize(frame_rgb, (640, 480))
             # Convert frame to ImageTk.PhotoImage object
