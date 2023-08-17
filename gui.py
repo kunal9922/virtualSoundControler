@@ -104,8 +104,6 @@ def update_frame():
                 blurred_frame = frame 
             # Convert frame from BGR to RGB
             frame_rgb = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2RGB)
-            # Resize frame to fit in GUI window
-            frame_rgb = cv2.resize(frame_rgb, (640, 480))
             # Convert frame to ImageTk.PhotoImage object
             img = Image.fromarray(frame_rgb)
             img_tk = ImageTk.PhotoImage(image=img)
@@ -180,6 +178,9 @@ detectHand = True
 
 # OpenCV VideoCapture object for camera input
 cap = cv2.VideoCapture(0)
+# Set camera resolution to lower value for faster processing
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 hand_volume_control = HandVolumeControl(640, 480)
 
 def exe():
