@@ -27,11 +27,11 @@ class Icon:
 #toggle switch to Trun ON and Trun OFF hand detection 
 def detectToggle():
     global detectHand, app
-    if app.hd_toggle_button.config('text')[-1] == "OFF":
-        app.hd_toggle_button.config(text="ON", image = app.hndOn, compound= tk.RIGHT )
+    if app.hd_toggle_button.config('text')[-1] == "Hand Detection OFF":
+        app.hd_toggle_button.config(text="Hand Detection ON", image = app.hndOn, compound= 'left', style='Blue.TButton' )
         detectHand = True
     else:
-        app.hd_toggle_button.config(text="OFF", image = app.hndOFF, compound= tk.RIGHT )
+        app.hd_toggle_button.config(text="Hand Detection OFF", image = app.hndOFF, compound= 'left', style='Blue.TButton')
         detectHand = False
 
 
@@ -119,16 +119,22 @@ class windowGui:
         # Create the main window
         self.root = tk.Tk()
         self.root.title("Wireless Sound Control System")
-        ico = Image.open('./dataset/magicHands.png')
+        ico = Image.open(r'dataset\\magicHands.png')
         photo = ImageTk.PhotoImage(ico)
         self.root.wm_iconphoto(False, photo)
 
     def exe(self):
         #icon hand detection icon On and OFF
-        self.hndOn = Icon(r'./dataset/toggleON.png', (50, 50))
+        self.hndOn = Icon(r'dataset\\palmDetection.png', (50, 50))
         self.hndOn = self.hndOn.icon
-        self.hndOFF = Icon(r'./dataset/toggleOFF.png', (50, 50))
+        self.hndOFF = Icon(r'dataset\\palmDetectionBlock.png', (50, 50))
         self.hndOFF = self.hndOFF.icon
+
+        #Icon camera open and close
+        self.camOpen = Icon(r'dataset\\iconCam.png', (50, 50))
+        self.camOpen = self.camOpen.icon
+        self.camClose = Icon(r'dataset\\closeCam2.png',(50, 50))
+        self.camClose = self.camClose.icon
 
         
         # Create a frame to hold the camera frame label
@@ -140,15 +146,15 @@ class windowGui:
         self.label.pack()
 
         # Create "Open Camera" button
-        self.open_button = ttk.Button(self.root, text="Open Camera", command=open_camera)
+        self.open_button = ttk.Button(self.root, text="Open Camera", image=self.camOpen, command=open_camera, compound= 'left', style='Blue.TButton' )
         self.open_button.pack(pady=5)
 
         # Create "Close Camera" button
-        self.close_button = ttk.Button(self.root, text="Close Camera", command=close_camera)
+        self.close_button = ttk.Button(self.root, text="Close Camera", image=self.camClose, command=close_camera, compound= 'left', style='Blue.TButton')
         self.close_button.pack(pady=5)
 
         # Create " Hand detection " toggle button
-        self.hd_toggle_button = ttk.Button(self.root, text="ON",image=self.hndOn, command= detectToggle)
+        self.hd_toggle_button = ttk.Button(self.root, text="Hand Detection ON",image=self.hndOn, command= detectToggle, compound= 'left', style='Blue.TButton')
         self.hd_toggle_button.pack(pady=5)
 
         #slider that shows the current volume by changing hand gestures.
