@@ -28,6 +28,8 @@ class HandVolumeControl:
         lmList = self.detector.findPosition(img, draw=False)
         # store the volume percentage 
         volPer = 0
+        # pixel locations of the thumb tip and Index Finger
+        x1 = y1 = x2 = y2 = None
         if len(lmList):
             x1, y1 = lmList[4][1], lmList[4][2]  # Thumb Tip
             x2, y2 = lmList[8][1], lmList[8][2]  # Index FInger Tip
@@ -44,7 +46,7 @@ class HandVolumeControl:
             if length < 40:
                 cv2.circle(img, (cx, cy), 10, (0,255,0), cv2.FILLED)
 
-        return img, volPer, lmList
+        return img, volPer, lmList, ((x1, y1), (x2, y2)) # thumb and index finger tuple
 
     def release(self):
        # self.cap.release()

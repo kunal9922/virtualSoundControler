@@ -41,7 +41,7 @@ class HandDetector():
                 #print(id, cx, cy)
                 lmList.append([id,cx,cy])
 
-                #draw cricle on the detected landmarks on the hand
+                #draw circle on the detected landmarks on the hand
                 if draw == True:
                     cv2.circle(img, (cx,cy), 15, (0,0,255), cv2.FILLED)
         

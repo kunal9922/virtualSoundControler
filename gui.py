@@ -24,7 +24,7 @@ class Icon:
 
 
 
-#toggle switch to Trun ON and Trun OFF hand detection 
+#toggle switch to turn ON and turn OFF hand detection 
 def detectToggle():
     global detectHand, app
     if app.hd_toggle_button.config('text')[-1] == "Hand Detection OFF":
@@ -68,7 +68,7 @@ def update_frame():
         blurred_frame = cv2.GaussianBlur(frame, (99, 99), 0)
         if ret:
             if detectHand is not False:
-                frame, vol, landmarks = hand_volume_control.run(frame)
+                frame, vol, landmarks, thumb_index = hand_volume_control.run(frame)
                 app.scaleValue.set(vol)
 
                 # Get the landmarks for the first hand and create a hand mask
@@ -77,7 +77,6 @@ def update_frame():
                 for lm in landmarks:
                     id, cx, cy = lm
                     cv2.circle(hand_mask, (cx, cy), 5, (255), cv2.FILLED)
-
                 # Apply Gaussian blur to the entire frame
                 blurred_frame = cv2.GaussianBlur(frame, (99, 99), 0)
 
@@ -99,6 +98,8 @@ def update_frame():
                     for finger in fingers:
                         for i in range(len(finger) - 1):
                             cv2.line(frame, tuple(landmarks[finger[i]][1:]), tuple(landmarks[finger[i + 1]][1:]), (0, 255, 0), 2)
+                    # Draw a line between thumb and index finger to recognize the volume levels
+                    cv2.line(frame, thumb_index[0], thumb_index[1], (0, 255, 0), 3)
                 
                 #Set the new hand detected frame with blur effect
                 blurred_frame = frame 
