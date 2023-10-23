@@ -32,17 +32,13 @@ Step 6: To run the project
 
     python gui.py
 
-## Demo of the project with security enhancements such as blurring the camera taken inputs.
+## Demo of the project with security enhancements such as blurring the camera-taken inputs
 
-https://github.com/kunal9922/virtualSoundControler/assets/53283003/2d756fac-f2bd-4fcb-aa29-76505964d8f3
+https://github.com/kunal9922/virtualSoundControler/assets/53283003/1b6e1a95-0c2c-4056-8b2e-27a7dfc86237
 
-## Initially I was trying to track hand gestures.
+## Initially. I was trying to track hand gestures.
 
 https://github.com/kunal9922/virtualSoundControler/assets/53283003/1d18bca4-6291-4fe0-84cb-5beda68c91a9
 
-
 ## Hand Landmarks
 ![hand_landmarks](https://github.com/kunal9922/virtualSoundControler/assets/53283003/7a107a18-f305-4523-868e-97305dba2654)
-
-
-
